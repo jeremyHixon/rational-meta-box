@@ -1,8 +1,14 @@
 <?php
 	/**
-	 * Copyright (c) 2015, Jeremy Hixon, All rights reserved
-	 * 
 	 * - Get list of available styles for inputs
+	 */
+
+	/**
+	 * Rational Meta Box
+	 * 
+	 * @author Jeremy Hixon
+	 * @link http://jeremyhixon.com
+	 * @version 0.1
 	 */
 	class RationalMetaBox {
 		
@@ -69,6 +75,10 @@
 		private $text_domain = 'rational';
 		private $stored_values = false;
 		
+		
+		// ==========================================================================
+		// Init
+		// ==========================================================================
 		public function __construct() {
 			add_action( 'save_post', array( $this, 'save_box' ) );
 		}
@@ -76,6 +86,11 @@
 		// ==========================================================================
 		// Standard functions
 		// ==========================================================================
+		/**
+		 * Saves post data
+		 *
+		 * @param string post_id The ID of the current post
+		 */
 		public function save_box( $post_id ) {
 			// validate save
 			if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) return;
@@ -98,6 +113,12 @@
 			}
 		}
 		
+		/**
+		 * Adds the meta box to the editor window
+		 *
+		 * @param array atts An array of new attributes for the meta box
+		 * @param array fields An array of new fields for the meta box
+		 */
 		public function add_box( $atts = false, $fields = false ) {
 			global $post;
 			if ( $fields ) {
@@ -129,6 +150,11 @@
 			global $wp_scripts;
 		}
 		
+		/**
+		 * Places the meta box HTML in the editor page
+		 *
+		 * @param object post The WordPress post object
+		 */
 		public function meta_box_callback( $post ) {
 			// nonce
 			wp_nonce_field( '_' . $this->meta_box_atts['id'] . '_nonce', $this->meta_box_atts['id'] . '_nonce' );
@@ -163,6 +189,12 @@
 		// ==========================================================================
 		/**
 		 * Generate input (all)
+		 *
+		 * @param string type Type of input to be generated
+		 * @param array field Array of field attributes
+		 * @param boolean tabled Whether or not the output should be in a table
+		 *
+		 * @return string HTML for the input
 		 */
 		private function generate_input( $type, $field, $tabled ) {
 			$input_field  = $this->tabs(3);
@@ -242,7 +274,10 @@
 		/**
 		 * Generate Label
 		 *
-		 * @param string format Is this for a table or not
+		 * @param array field Array of field attributes
+		 * @param boolean tabled Whether or not the output should be in a table
+		 *
+		 * @return string HTML for the label
 		 */
 		private function generate_label( $field, $tabled = false ) {
 			if ( $tabled ) {
@@ -258,7 +293,14 @@
 		// ==========================================================================
 		// Helpers
 		// ==========================================================================
-		private function tabs( $count ) {
+		/**
+		 * Inserts a number of tabs based on provided count
+		 * 
+		 * @param integer count Number of tabs to generate
+		 *
+		 * @return string
+		 */
+		private function tabs( $count = 1 ) {
 			$tabs = "";
 			for ($i = 0; $i < $count; $i++)
 				$tabs .= "\t";
