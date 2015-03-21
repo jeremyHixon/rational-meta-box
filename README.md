@@ -23,6 +23,13 @@ $my_attributes = array(
 );
 $rational_meta_box->add_box( $my_attributes );
 ```
+### All Meta Box Parameters
+Essentially the same as [WordPress' `add_meta_box` parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
+* id: (default: rational-meta-box)
+* title: (default: Rational Meta Box)
+* screen: (default: post')
+* context: (default: advanced')
+* priority: (default: default')
 
 ## Contributing
 1. Fork it!
@@ -39,6 +46,7 @@ $rational_meta_box->add_box( $my_attributes );
 
 ## Todo's
 * Get list of available styles for inputs
+* Meta box `callback_args`
 
 ## License
 

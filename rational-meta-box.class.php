@@ -17,7 +17,6 @@
 			'screen'		=> 'post',
 			'context'		=> 'advanced',
 			'priority'		=> 'default',
-			'callback_args'	=> null,
 		);
 		private $fields = array(
 			array(
