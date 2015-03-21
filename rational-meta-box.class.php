@@ -1,9 +1,5 @@
 <?php
 	/**
-	 * - Get list of available styles for inputs
-	 */
-
-	/**
 	 * Rational Meta Box
 	 * 
 	 * @author Jeremy Hixon
@@ -16,12 +12,12 @@
 		// Variables
 		// ==========================================================================
 		private $meta_box_atts = array(
-			'id'			=> 'rational-meta-box',	// WP default: None
-			'title'			=> 'Rational Meta Box',	// WP default: None
-			'screen'		=> 'post',				// WP default: null
-			'context'		=> 'advanced',			// WP default: advanced
-			'priority'		=> 'default',			// WP default: default
-			'callback_args'	=> null,				// WP default: null
+			'id'			=> 'rational-meta-box',
+			'title'			=> 'Rational Meta Box',
+			'screen'		=> 'post',
+			'context'		=> 'advanced',
+			'priority'		=> 'default',
+			'callback_args'	=> null,
 		);
 		private $fields = array(
 			array(
