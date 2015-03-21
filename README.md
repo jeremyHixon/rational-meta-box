@@ -24,12 +24,12 @@ $my_attributes = array(
 $rational_meta_box->add_box( $my_attributes );
 ```
 ### All Meta Box Parameters
-Essentially the same as <a href="http://codex.wordpress.org/Function_Reference/add_meta_box" target="_blank">WordPress' <code>add_meta_box</code> parameters</a>.
-* id: (default: rational-meta-box)
-* title: (default: Rational Meta Box)
-* screen: (default: post')
-* context: (default: advanced')
-* priority: (default: default')
+Essentially the same as [WordPress' add_meta_box() parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
+* id: HTML id attribute of meta box element (default: 'rational-meta-box')
+* title: Title of meta box (default: 'Rational Meta Box')
+* screen: Location, or post type, of the meta box (default: 'post')
+* context: Region where the meta box is displayed (default: 'advanced')
+* priority: Priority of the meta box within it's region (default: 'default')
 
 ## Contributing
 1. Fork it!
