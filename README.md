@@ -30,11 +30,11 @@ $rational_meta_box->add_box( $my_attributes );
 ```
 Essentially the same as [WordPress' add_meta_box() parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
 
-* **id**: HTML id attribute of meta box element (default: 'rational-meta-box')
-* **title**: Title of meta box (default: 'Rational Meta Box')
-* **screen**: Location, or post type, of the meta box (default: 'post')
-* **context**: Region where the meta box is displayed (default: 'advanced')
-* **priority**: Priority of the meta box within it's region (default: 'default')
+* **id**: HTML id attribute of meta box element. (default: 'rational-meta-box')
+* **title**: Title of meta box. (default: 'Rational Meta Box')
+* **screen**: Location, or post type, of the meta box. (default: 'post')
+* **context**: Region where the meta box is displayed. Boxes placed in the 'side' context will not use a table for layout. (default: 'advanced')
+* **priority**: Priority of the meta box within it's region. (default: 'default')
 
 ### Meta Box Fields
 
@@ -53,6 +53,27 @@ $my_fields = array(
 );
 $rational_meta_box->add_box( false, $my_fields );
 ```
+Some parameters exist for all input types while some are specific
+
+#### Parameters For All Types
+
+* **type**: HTML input type (text, textarea, select, checkbox, radio).
+* **name**: HTML input name attribute.
+* **label**: HTML label element.
+
+#### Paramters For Text and Textarea
+
+* **value**: HTML input value attribute.
+* **placeholder**: HTML5 input placeholder attribute.
+* **atts**: Additional attributes in an array. Currently supports 'class' for both and 'rows' for textarea only.
+
+#### Parameters For Checkbox
+
+* **description**: Description for the checkbox. Wrapper in a label element as well.
+
+#### Parameters for Select and Radio
+
+* **options**: Array of options. Items in a sequential array use the array value as the input and option value as well. Items in an associative array use the array key as the value of the input or option and the array value as the text or description.
 
 ## Contributing
 
