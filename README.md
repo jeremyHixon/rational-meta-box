@@ -1,7 +1,9 @@
 # Rational Meta Box Generator
+
 Generates meta boxes for WordPress using fields passed via arrays.
 
 ## Installation
+
 ```php
 require_once('rational-meta-box.class.php');
 $rational_meta_box = new RationalMetaBox();
@@ -14,6 +16,9 @@ add_action( 'add_meta_boxes', 'rational_meta_box_class' );
 ```
 
 ## Usage
+
+### Meta Box Parameters
+
 Meta box parameters are set by passing an array as the first parameter in the `add_box` method.
 
 ```php
@@ -23,15 +28,34 @@ $my_attributes = array(
 );
 $rational_meta_box->add_box( $my_attributes );
 ```
-### All Meta Box Parameters
 Essentially the same as [WordPress' add_meta_box() parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
+
 * **id**: HTML id attribute of meta box element (default: 'rational-meta-box')
 * **title**: Title of meta box (default: 'Rational Meta Box')
 * **screen**: Location, or post type, of the meta box (default: 'post')
 * **context**: Region where the meta box is displayed (default: 'advanced')
 * **priority**: Priority of the meta box within it's region (default: 'default')
 
+### Meta Box Fields
+
+Fields are added via an array passed as the second parameter in the `add_box` method.
+
+```php
+$my_fields = array(
+	array(
+		'type'	=> 'text',
+		'name'	=> 'your-name',
+		'label' => 'Your Name',
+		'atts' => array(
+			'class'	=> 'large-text',
+		),
+	),
+);
+$rational_meta_box->add_box( false, $my_fields );
+```
+
 ## Contributing
+
 1. Fork it!
 2. Create your feature branch: `git checkout -b my-new-feature`
 3. Commit your changes: `git commit -am 'Add some feature'`
@@ -39,12 +63,15 @@ Essentially the same as [WordPress' add_meta_box() parameters](http://codex.word
 5. Submit a pull request
 
 ## Version
+
 0.1
 
 ## History
+
 * 0.1 - Initial upload
 
 ## Todo's
+
 * Get list of available styles for inputs
 * Meta box `callback_args`
 
