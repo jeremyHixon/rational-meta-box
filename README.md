@@ -53,6 +53,7 @@ $my_fields = array(
 );
 $rational_meta_box->add_box( false, $my_fields );
 ```
+
 Some parameters exist for all input types while some are specific
 
 #### Parameters For All Types
@@ -61,7 +62,7 @@ Some parameters exist for all input types while some are specific
 * **name**: HTML input name attribute.
 * **label**: HTML label element.
 
-#### Paramters For Text and Textarea
+#### Parameters For Text and Textarea
 
 * **value**: HTML input value attribute.
 * **placeholder**: HTML5 input placeholder attribute.
@@ -73,7 +74,24 @@ Some parameters exist for all input types while some are specific
 
 #### Parameters for Select and Radio
 
-* **options**: Array of options. Items in a sequential array use the array value as the input and option value as well. Items in an associative array use the array key as the value of the input or option and the array value as the text or description.
+* **options**: Array of options. Items in a sequential array use the array value as the input and option value as well. Items in an associative array use the array key as the value of the input or option and the array value as the text or description. Example below.
+
+```php
+$fields = array(
+	array(
+		'type'			=> 'select',
+		'name'			=> 'select-name',
+		'label'			=> 'Select Label',
+		'options'		=> array(
+			'Option One',
+			'option-two' => 'Option Two'
+		)
+	)
+);
+$my_meta_box->add_box( false, $fields );
+```
+
+The first option would render as `<option>Option One</option>` while the second would render as `<option value="option-two">Option Two</option>`.
 
 ## Contributing
 
