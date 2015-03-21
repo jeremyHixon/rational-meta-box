@@ -24,7 +24,7 @@ $my_attributes = array(
 $rational_meta_box->add_box( $my_attributes );
 ```
 ### All Meta Box Parameters
-Essentially the same as [WordPress' `add_meta_box` parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
+Essentially the same as <a href="http://codex.wordpress.org/Function_Reference/add_meta_box" target="_blank">WordPress' <code>add_meta_box</code> parameters</a>.
 * id: (default: rational-meta-box)
 * title: (default: Rational Meta Box)
 * screen: (default: post')
