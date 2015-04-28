@@ -111,6 +111,7 @@ The first option would render as `<option>Option One</option>` while the second 
 
 ## Todo's
 
+* Add "description" for text, textarea and select
 * Get list of available styles for inputs
 * Meta box `callback_args`
 
