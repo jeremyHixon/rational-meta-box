@@ -61,16 +61,16 @@ Some parameters exist for all input types while some are specific
 * **type**: HTML input type (text, textarea, select, checkbox, radio).
 * **name**: HTML input name attribute.
 * **label**: HTML label element.
+* **description** Used with checkboxes: Description for the checkbox. Wrapper in a label element as well.
+  All other elements: Descriptive text that appears under the elements.
 
 #### Parameters For Text and Textarea
 
 * **value**: HTML input value attribute.
 * **placeholder**: HTML5 input placeholder attribute.
 * **atts**: Additional attributes in an array. Currently supports 'class' for both and 'rows' for textarea only.
-
-#### Parameters For Checkbox
-
-* **description**: Description for the checkbox. Wrapper in a label element as well.
+* **atts['char_count']** Adds a character counter to the input or textarea.
+* **atts['char_limit']** Adds a character limit to the counter for the input or textarea. This is not a "hard" limit so you can enter more. Default: 155.
 
 #### Parameters for Select and Radio
 
@@ -103,15 +103,15 @@ The first option would render as `<option>Option One</option>` while the second 
 
 ## Version
 
-0.1
+0.2
 
 ## History
 
+* 0.2 - Added character counter code, JS and CSS. Added "description" fields for inputs, selects and textareas.
 * 0.1 - Initial upload
 
 ## Todo's
 
-* Add "description" for text, textarea and select
 * Get list of available styles for inputs
 * Meta box `callback_args`
 

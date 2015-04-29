@@ -36,8 +36,10 @@
 				'label'			=> 'Textarea Label',
 				'placeholder'	=> 'Textarea Placeholder',
 				'atts'			=> array(
-					'class'	=> 'large-text',
-					'rows'	=> 3,
+					'class'			=> 'large-text',
+					'rows'			=> 3,
+					'char_count'	=> true,
+					'char_limit'	=> 64
 				),
 			),
 			array(
@@ -196,13 +198,19 @@
 			$input_field .= ( $tabled ) ? '<td>' : '<p>';
 			switch ($type) {
 				case 'textarea':
-					$input_field .= sprintf( '<textarea class="%s" name="%s" id="%s" placeholder="%s" rows="%d">%s</textarea>',
-						( isset( $field['atts']['class'] ) ) ? $field['atts']['class'] : 'regular-text',
+					$input_field .= sprintf( '<textarea class="%s %s" %s name="%s" id="%s" placeholder="%s" rows="%d">%s</textarea>%s',
+						( isset( $field['atts']['class'] ) ) ? $field['atts']['class'] : 'large-text',
+						
+						// class and data att for character count JS
+						( isset( $field['atts']['char_count'] ) ) ? 'character-count' : '',
+						'data-char-limit="' . ( ( isset( $field['atts']['char_limit'] ) ) ? $field['atts']['char_limit'] : 155 ) . '"',
+						
 						$field['name'],
 						$field['name'],
 						__( $field['placeholder'] ),
 						( isset( $field['atts']['rows'] ) ) ? $field['atts']['rows'] : 5,
-						( $this->stored_values[$field['name']] ) ? __( $this->stored_values[$field['name']] ) : __( $field['value'] )
+						( $this->stored_values[$field['name']] ) ? __( $this->stored_values[$field['name']] ) : __( $field['value'] ),
+						( isset( $field['description'] ) ) ? '<p class="description">' . $field['description'] . '</p>' : ''
 					);
 					break;
 				case 'select':
@@ -223,7 +231,11 @@
 						}
 						$input_field .= "\r\n";
 					}
-					$input_field .= $this->tabs(4) . '</select>' . "\r\n";
+					$input_field .= $this->tabs(4) . '</select>';
+					if ( isset( $field['description'] ) ) {
+						$input_field .= '<p class="description">' . $field['description'] . '</p>';
+					}
+					$input_field .= "\r\n";
 					break;
 				case 'checkbox':
 					$input_field .= sprintf( '<label><input type="checkbox" name="%s" id="%s" value="%s" %s> %s</label>',
@@ -252,17 +264,31 @@
 					}
 					break;
 				default:
-					$input_field .= sprintf( '<input class="%s" type="text" name="%s" id="%s" value="%s" placeholder="%s">',
-						( isset( $field['atts']['class'] ) ) ? $field['atts']['class'] : 'regular-text',
+					$input_field .= sprintf( '<input class="%s %s" %s type="text" name="%s" id="%s" value="%s" placeholder="%s">%s',
+						( isset( $field['atts']['class'] ) ) ? $field['atts']['class'] : 'large-text',
+
+						// class and data att for character count JS
+						( isset( $field['atts']['char_count'] ) ) ? 'character-count' : '',
+						'data-char-limit="' . ( ( isset( $field['atts']['char_limit'] ) ) ? $field['atts']['char_limit'] : 155 ) . '"',
+
 						$field['name'],
 						$field['name'],
 						( $this->stored_values[$field['name']] ) ? __( $this->stored_values[$field['name']] ) : __( $field['value'] ),
-						__( $field['placeholder'] )
+						__( $field['placeholder'] ),
+						( isset( $field['description'] ) ) ? '<p class="description">' . $field['description'] . '</p>' : ''
 					);
 					break;
 			}
 			$input_field .= ( $tabled ) ? '</td>' : '</p>';
 			$input_field .= "\r\n";
+			
+			if ( isset( $field['atts']['char_count'] ) ) {
+				// queue up jQuery and css/js for character count
+				wp_enqueue_script( 'jquery' );
+				wp_enqueue_script( 'char-count', plugins_url( 'js/char-count.js', __FILE__ ) );
+				wp_enqueue_style( 'char-count', plugins_url( 'css/char-count.css', __FILE__ ) );
+			}
+			
 			return $input_field;
 		}
 		
