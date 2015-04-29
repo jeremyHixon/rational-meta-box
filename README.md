@@ -1,6 +1,6 @@
 # Rational Meta Box Generator
 
-Generates meta boxes for WordPress using fields passed via arrays.
+Generates meta boxes for WordPress using fields passed via arrays. You have to use the `load-post.php` hook in order to be able to add the `save_post` action correctly.
 
 ## Installation
 
@@ -12,7 +12,7 @@ function rational_meta_box_class() {
 	global $rational_meta_box;
 	$rational_meta_box->add_box();
 }
-add_action( 'add_meta_boxes', 'rational_meta_box_class' );
+add_action( 'load-post.php', 'rational_meta_box_class' );
 ```
 
 ## Usage
