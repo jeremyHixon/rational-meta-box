@@ -324,7 +324,7 @@ class RationalMetaBoxes {
 	private function generate_field( $id, $atts ) {
 		global $post;
 		if ( !isset( $atts['type'] ) ) {
-			$atts['type'] = 'text'
+			$atts['type'] = 'text';
 		}
 		$text_style = array( 'date', 'datetime', 'datetime-local', 'email', 'number', 'password', 'search', 'tel', 'text', 'time', 'url' );
 		$stored_value = get_post_meta( $post->ID, $id, true );

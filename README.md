@@ -95,3 +95,65 @@ $my_boxes = array(
 Default: `'text'`
 - **$label**: (required, string) Identifying text for the left column. Serves as a label for some input types.
 - **$description**: (optional, string) Serves as 'help text' for most elements. Also serves as a label for checkboxes.
+- **$value**: (optional, string or integer) The default value of the field. (_Note: In the case of checkboxes this server as the value of the checkbox written to the database when checked. If none set, it uses '1'_)
+- **$options**: (radio and select types only, required, array) Used to define the options available in radio and select inputs. See [the example](#example-field-options) for more detail.
+- **$other**: (optional, array) More input specific attributes defined below and supplied in an associative array.
+    - **$autocomplete**: (optional, string) Defines whether or not the browser can "autocomplete" this field.  
+    (`'on', 'off'`)  
+    Default: `'on'`
+    - **$autofocus**: (optional, boolean) If set to true, the last field in the HTML of the page, with this parameter, will be the first one focused on page load.
+    - **$class**: (optional, string) Defines the class(es) applied to the field.  
+    Default: `'regular-text'` for most fields, `'large_text'` for textareas.
+    - **$cols**: (textarea only, optional, integer) Defines the number of columns of the given textarea. (_Note: **$class** should probably be set to a blank or `null` value to use **$cols** properly._)
+    - **$disabled**: (optional, boolean) If set to true the field will be disabled on load.
+    - **$max**: (date and number types only, optional, integer) Defines the upper possible boundary for the value of the field.
+    - **$maxlength**: ("text" type fields only, optional, integer) Sets the upper limit of characters for the value of the field.
+    - **min**: ("text" type fields only, optional, integer) Defines the lower possible boundary for the value of the field.
+    - **$pattern**: ("text" type fields only, optional, string/regexp) Regular expression to validate the value against before submitting.
+    - **$placeholder**: ("text" type fields only, optional, string) HTML5 placeholder value.
+    - **$readonly**: (optional, boolean) If set to true the field will be only allow for reading, not editing.
+    - **$required**: (optional, boolean) If set to true the field will be required.
+    - **$rows**: (textarea only, optional, integer) Defines the number of row of the given textarea.
+    - **$step**: (range and number only, optional, integer) Defines the amount of each "step" in between the **$min** and **$max** values for a range or number field.
+
+
+
+## Examples
+<a name="example-field-options" id="example-field-options"></a>
+### Radio and Select Options Attribute
+**`'select'` type**
+```php
+'options'   => array(
+	'Choose One&hellip;',
+	'Option One',
+	'option-two'    => 'Option Two',
+),
+```
+![Screenshot of rendered select element with options](http://i.imgur.com/VKuhig4.jpg)
+
+You can use either the value itself or a key/value pair where the 'key' parameter defines the option or radio input's value and the 'value' parameter defines the human readable text part.
+
+**`'radio'` type**
+```php
+'options'   => array(
+	'Option One',
+	'option-two'    => 'Option Two',
+),
+```
+
+![Screenshot of the rendered radio input options](http://i.imgur.com/dpCe52B.jpg)
+
+If you choose not to use the key/value method the script will generate a machine readable version of the provided text for use in the value. For instance the string 'Option One' would be converted to `'option-one'`.
+
+## Licesnse
+
+The MIT License (MIT)
+
+Copyright (c) 2015 Jeremy Hixon.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
