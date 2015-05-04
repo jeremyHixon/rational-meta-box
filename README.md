@@ -89,7 +89,7 @@ $my_boxes = array(
 ```
 <a name="field-options" id="field-options"></a>
 ### Field Options
-- **$id**: (required, string, preferrably hyphenated) Provided as the 'key' for the array of field attributes.
+- **$id**: (required, string, preferably hyphenated) Provided as the 'key' for the array of field attributes.
 - **$type**: (optional, string) The type of input to generate.  
 (`'file', 'checkbox', 'color', 'date', 'month', 'week', 'datetime', 'datetime-local', 'email', 'number', 'password', 'radio', 'range', 'search', 'select', 'tel', 'text', 'time', 'textarea', 'url'`)  
 Default: `'text'`
@@ -145,7 +145,7 @@ You can use either the value itself or a key/value pair where the 'key' paramete
 
 If you choose not to use the key/value method the script will generate a machine readable version of the provided text for use in the value. For instance the string 'Option One' would be converted to `'option-one'`.
 
-## Licesnse
+## License
 
 The MIT License (MIT)
 
