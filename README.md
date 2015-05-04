@@ -1,140 +1,97 @@
-# Rational Meta Box Generator
+# Rational Meta Box Class
 
-Generates meta boxes for WordPress using fields passed via arrays. You have to use the `load-post.php` hook in order to be able to add the `save_post` action correctly.
+## Description
+
+PHP Class for building WordPress meta boxes using multidimensional, associative arrays.
+
+- Uses [WordPress' native functions](https://codex.wordpress.org/Function_Reference/add_meta_box)
+- Supports all, basic HTML and HTML5 inputs and attributes
+- Reduces a lot of redundant callback programming
 
 ## Installation
 
 ```php
-require_once('rational-meta-box.class.php');
-$rational_meta_box = new RationalMetaBox();
-
-function rational_meta_box_class() {
-	global $rational_meta_box;
-	$rational_meta_box->add_box();
+function rational_meta_boxes() {
+	require_once( 'inc/class.rational-meta-box.php' );
+	$rational_meta_box = new RationalMetaBoxes();
+	$rational_meta_box->generate_boxes();
 }
-add_action( 'load-post.php', 'rational_meta_box_class' );
+add_action( 'admin_init', 'rational_meta_boxes' );
 ```
+1. Create a function to hook into WordPress' `admin_init` hook.
+2. `require_once` the Rational Meta Box class.
+3. Instantiate the class.
+4. Trigger the generation of the boxes with `generate_boxes()` method.
 
-## Usage
-
-### Meta Box Parameters
-
-Meta box parameters are set by passing an array as the first parameter in the `add_box` method.
-
+## Customizing
 ```php
-$my_attributes = array(
-	'id'			=> 'my-meta-box',
-	'title'			=> 'My Meta Box',
-);
-$rational_meta_box->add_box( $my_attributes );
-```
-Essentially the same as [WordPress' add_meta_box() parameters](http://codex.wordpress.org/Function_Reference/add_meta_box).
-
-* **id**: HTML id attribute of meta box element. (default: 'rational-meta-box')
-* **title**: Title of meta box. (default: 'Rational Meta Box')
-* **screen**: Location, or post type, of the meta box. (default: 'post')
-* **context**: Region where the meta box is displayed. Boxes placed in the 'side' context will not use a table for layout. (default: 'advanced')
-* **priority**: Priority of the meta box within it's region. (default: 'default')
-
-### Meta Box Fields
-
-Fields are added via an array passed as the second parameter in the `add_box` method.
-
-```php
-$my_fields = array(
-	array(
-		'type'	=> 'text',
-		'name'	=> 'your-name',
-		'label' => 'Your Name',
-		'atts' => array(
-			'class'	=> 'large-text',
+$my_boxes = array(
+	'my-box-one'	=> array(
+		'title'			=> 'My Box One',
+		'screen'		=> array( 'post', 'page' ),
+		'description'	=> 'My custom meta box description',
+		'fields'		=> array(
+			'my-text-field'	=> array(
+				'type'			=> 'text',
+				'label'			=> 'My Text Field',
+				'description'	=> 'Instructions or an explanation of the field',
+			),
 		),
 	),
 );
-$rational_meta_box->add_box( false, $my_fields );
+$rational_meta_box = new RationalMetaBoxes( $my_boxes );
 ```
 
-Some parameters exist for all input types while some are specific
+1. Create an array with the top level being the attributes of your meta box and fields within that.
+2. Pass the array to the function that initializes the Rational Meta Box class.
+3. Check out your meta box on the given post type(s)' edit page.
 
-#### Parameters For All Types
+![Screenshot of rendered 'my_boxes' array](http://i.imgur.com/IevTxdS.jpg)
 
-* **type**: HTML input type (text, textarea, select, checkbox, radio).
-* **name**: HTML input name attribute.
-* **label**: HTML label element.
-* **description** Used with checkboxes: Description for the checkbox. Wrapper in a label element as well.
-  All other elements: Descriptive text that appears under the elements.
+## Parameters
 
-#### Parameters For Text and Textarea
+### Meta Box Options
 
-* **value**: HTML input value attribute.
-* **placeholder**: HTML5 input placeholder attribute.
-* **atts**: Additional attributes in an array. Currently supports 'class' for both and 'rows' for textarea only.
-* **atts['char_count']** Adds a character counter to the input or textarea.
-* **atts['char_limit']** Adds a character limit to the counter for the input or textarea. This is not a "hard" limit so you can enter more. Default: 155.
+See [WordPress' `add_meta_box` function](https://codex.wordpress.org/Function_Reference/add_meta_box#Parameters) for more information.
 
-#### Parameters for Select and Radio
+- **$id**: (required, string, preferably hyphenated) Provided as the 'key' for the array of attributes.
+- **$title**: (required, string) Defines the "title" of the meta box.
+- **$screen**: (optional, string or array) Where the meta box will appear. Can be string or an array of strings.  
+(`'post', 'page','dashboard','link','attachment','custom_post_type'`)  
+Default: `'post'`
+- **$description**: (optional, string) A description for the meta box.
+- **$context**: (optional, string) Position on the editor window.  
+(`'normal', 'advanced', or 'side'`)  
+Default: `'advanced'`
+- **$priority**: (optional, string) The priority to give the meta box.  
+(`'high', 'core', 'default' or 'low'`)  
+Default: `'default'`
+- **$fields**: (optional, array) An array of multidimensional, associative arrays containing field data. See [Field Options](#field-options) below.
 
-* **options**: Array of options. Items in a sequential array use the array value as the input and option value as well. Items in an associative array use the array key as the value of the input or option and the array value as the text or description. Example below.
-
+Example:
 ```php
-$fields = array(
-	array(
-		'type'			=> 'select',
-		'name'			=> 'select-name',
-		'label'			=> 'Select Label',
-		'options'		=> array(
-			'Option One',
-			'option-two' => 'Option Two'
-		)
-	)
+$my_boxes = array(
+	'meta-box-id'   => array(
+		'title'         => 'Meta Box One',
+		'screen'        => array( 'post', 'page' ),
+		'description'   => 'Description of meta box',
+		'context'       => 'side',
+		'priority'      => 'core',
+		'fields'        => array(
+			'text-field-id' => array(
+				'type'          => 'text',
+				'label'         => 'Field Label',
+				'description'   => 'Instructions or an explanation of the field',
+			),
+		),
+	),
 );
-$my_meta_box->add_box( false, $fields );
 ```
-
-The first option would render as `<option>Option One</option>` while the second would render as `<option value="option-two">Option Two</option>`.
-
-## Contributing
-
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request
-
-## Version
-
-0.2
-
-## History
-
-* 0.2 - Added character counter code, JS and CSS. Added "description" fields for inputs, selects and textareas.
-* 0.1 - Initial upload
-
-## Todo's
-
-* Get list of available styles for inputs
-* Meta box `callback_args`
-
-## License
-
-The MIT License (MIT)
-
-Copyright (c) 2015 Jeremy Hixon
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+<a name="field-options" id="field-options"></a>
+### Field Options
+- **$id**: (required, string, preferrably hyphenated) Provided as the 'key' for the array of field attributes.
+- **$type**: (optional, string) The type of input to generate.  
+(`'file', 'checkbox', 'color', 'date', 'month', 'week', 'datetime', 'datetime-local', 'email', 'number', 'password', 'radio', 'range', 'search', 'select', 'tel', 'text', 'time', 'textarea', 'url'`)  
+Default: `'text'`
+- **$label**: (required, string) Identifying text for the left column. Serves as a label for some input types.
+- **$description**: (optional, string) Serves as 'help text' for most elements. Also serves as a label for checkboxes.
