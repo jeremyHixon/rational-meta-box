@@ -105,7 +105,8 @@ class RationalMetaBoxes {
 					'type'			=> 'textarea',
 					'label'			=> 'Sample Textarea',
 					'other'			=> array(
-						'rows'		=> 5,
+						'char_count'	=> 155,
+						'rows'			=> 5,
 					),
 				),
 				'sample-text'		=> array(
