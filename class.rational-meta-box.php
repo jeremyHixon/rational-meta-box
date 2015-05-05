@@ -155,8 +155,17 @@ class RationalMetaBoxes {
 			wp_enqueue_script( 'media-upload' );
 			wp_enqueue_script( 'thickbox' );
 			wp_enqueue_style( 'thickbox' );
-			wp_register_script( 'meta-box-upload', plugins_url( '../js/meta-box-upload.js', __FILE__ ), array( 'jquery', 'media-upload', 'thickbox' ) );
+			wp_register_script( 'meta-box-upload', 'js/meta-box-upload.js', array( 'jquery', 'media-upload', 'thickbox' ) );
 			wp_enqueue_script( 'meta-box-upload' );
+		}
+		
+		// If there are any moxes that call for the character count
+		if ( count( $this-> search( $this->boxes, 'char_count' ) ) > 0 ) {
+			wp_register_style( 'char-count-css', 'css/char-count.css' );
+			wp_enqueue_style( 'char-count-css' );
+			wp_enqueue_script( 'jquery' );
+			wp_register_script( 'char-count-js', 'js/char-count.js', array( 'jquery' ) );
+			wp_enqueue_script( 'char-count-js' );
 		}
 		
 		add_action( 'save_post', array( $this, 'save' ) );
@@ -270,11 +279,14 @@ class RationalMetaBoxes {
 	 *
 	 * @return	array	The found key/value pair (if any), empty array if nothing is found
 	 */
-	private function search( $array, $key, $value ) {
+	private function search( $array, $key, $value = false ) {
 		$results = array();
 		
 		if ( is_array( $array ) ) {
-			if ( isset( $array[$key] ) && $array[$key] === $value ) {
+			if (
+				( isset( $array[$key] ) && $array[$key] === $value ) ||
+				( !$value && isset( $array[$key] ) )
+			) {
 				$results[] = $array;
 			}
 		
@@ -346,6 +358,10 @@ class RationalMetaBoxes {
 		$autofocus = '';
 		if ( isset( $atts['other']['autofocus'] ) && $atts['other']['autofocus'] ) {
 			$autofocus = 'autofocus';
+		}
+		$char_count = '';
+		if ( isset( $atts['other']['char_count'] ) && !empty( $atts['other']['char_count'] ) && $atts['other']['char_count'] ) {
+			$char_count = 'data-char-count="' . intval( $atts['other']['char_count'] ) . '"';
 		}
 		$class = '';
 		if ( isset( $atts['other']['class'] ) ) {
@@ -541,7 +557,7 @@ class RationalMetaBoxes {
 				break;
 			case 'email':
 				$html .= sprintf(
-					'<input class="%s" type="email" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="email" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -554,12 +570,13 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
 			case 'number':
 				$html .= sprintf(
-					'<input class="%s" type="number" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="number" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -575,12 +592,13 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
 			case 'password':
 				$html .= sprintf(
-					'<input class="%s" type="password" name="%s" id="%s" value="%s" %s %s %s %s %s>%s',
+					'<input class="%s" type="password" name="%s" id="%s" value="%s" %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -590,6 +608,7 @@ class RationalMetaBoxes {
 					$maxlength,
 					$placeholder,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
@@ -642,7 +661,7 @@ class RationalMetaBoxes {
 				break;
 			case 'search':
 				$html .= sprintf(
-					'<input class="%s" type="search" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="search" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -655,6 +674,7 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
@@ -689,7 +709,7 @@ class RationalMetaBoxes {
 				break;
 			case 'tel':
 				$html .= sprintf(
-					'<input class="%s" type="tel" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="tel" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -702,12 +722,13 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
 			case 'text':
 				$html .= sprintf(
-					'<input class="%s" type="text" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="text" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -720,6 +741,7 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
@@ -742,7 +764,7 @@ class RationalMetaBoxes {
 				break;
 			case 'textarea':
 				$html .= sprintf(
-					'<textarea class="%s" name="%s" id="%s" %s %s %s %s %s %s %s %s>%s</textarea>%s',
+					'<textarea class="%s" name="%s" id="%s" %s %s %s %s %s %s %s %s %s>%s</textarea>%s',
 					$class,
 					$id,
 					$id,
@@ -754,13 +776,14 @@ class RationalMetaBoxes {
 					$readonly,
 					$required,
 					$rows,
+					$char_count,
 					$value,
 					$description
 				);
 				break;
 			case 'url':
 				$html .= sprintf(
-					'<input class="%s" type="text" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s>%s',
+					'<input class="%s" type="text" name="%s" id="%s" value="%s" %s %s %s %s %s %s %s %s %s>%s',
 					$class,
 					$id,
 					$id,
@@ -773,6 +796,7 @@ class RationalMetaBoxes {
 					$pattern,
 					$readonly,
 					$required,
+					$char_count,
 					$description
 				);
 				break;
