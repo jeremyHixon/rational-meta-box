@@ -173,8 +173,13 @@ class RationalMetaBoxes {
 		// id with '_callback' appended to it. We're left with the id to use as a selector in
 		// the 'meta_box_callback' method.
 		$req_parts = explode( '_', $func );
-		$type = $req_parts[0];
-		$id = $req_parts[1];
+		if ( count( $req_parts ) > 2 ) {
+			$type = array_shift( $req_parts );
+			$id = implode('_', $req_parts);
+		} else {
+			$type = $req_parts[0];
+			$id = $req_parts[1];
+		}
 		switch ( $type ) {
 			case 'box':
 				$this->meta_box_callback( $id, $params[0] );
