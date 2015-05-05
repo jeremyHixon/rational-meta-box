@@ -102,6 +102,7 @@ Default: `'text'`
     (`'on', 'off'`)  
     Default: `'on'`
     - **$autofocus**: (optional, boolean) If set to true, the last field in the HTML of the page, with this parameter, will be the first one focused on page load.
+    - **$char_count**: ("text" type fields only, optional, integer) If provided, adds a character count box to the bottom, right of the input. _Note: Doesn't limit the number of characters. Use **$maxlength** to control that aspect._
     - **$class**: (optional, string) Defines the class(es) applied to the field.  
     Default: `'regular-text'` for most fields, `'large_text'` for textareas.
     - **$cols**: (textarea only, optional, integer) Defines the number of columns of the given textarea. (_Note: **$class** should probably be set to a blank or `null` value to use **$cols** properly._)
