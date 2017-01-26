@@ -691,7 +691,11 @@ class RationalMetaBoxes {
 				);
 				$j = 1;
 				foreach ( $atts['options'] as $key => $value ) {
-					$option_value = $this->slugify( $value );
+					if ( count(array_filter(array_keys($atts['options']), 'is_string')) > 0 ) {
+						$option_value = $key;
+					} else {
+						$option_value = $this->slugify( $value );
+					}
 					$selected = '';
 					if ( $stored_value && $stored_value === $option_value ) {
 						$selected = 'selected';
