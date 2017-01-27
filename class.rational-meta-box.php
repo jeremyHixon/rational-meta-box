@@ -619,7 +619,11 @@ class RationalMetaBoxes {
 				$html .= '<legend class="screen-reader-text">' . $atts['label'] . '</legend>';
 				$i = 1;
 				foreach ( $atts['options'] as $key => $value ) {
-					$input_value = $this->slugify( $value );
+					if ( count(array_filter(array_keys($atts['options']), 'is_string')) > 0 ) {
+						$input_value = $key;
+					} else {
+						$input_value = $this->slugify( $value );
+					}
 					$checked = '';
 					if ( $stored_value && $stored_value === $input_value ) {
 						$checked = 'checked';
@@ -691,7 +695,11 @@ class RationalMetaBoxes {
 				);
 				$j = 1;
 				foreach ( $atts['options'] as $key => $value ) {
-					$option_value = $this->slugify( $value );
+					if ( count(array_filter(array_keys($atts['options']), 'is_string')) > 0 ) {
+						$option_value = $key;
+					} else {
+						$option_value = $this->slugify( $value );
+					}
 					$selected = '';
 					if ( $stored_value && $stored_value === $option_value ) {
 						$selected = 'selected';
